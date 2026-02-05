@@ -1,17 +1,30 @@
-//
-//  SubwayDesktopApp.swift
-//  SubwayDesktop
-//
-//  Created by Ryan Collier on 1/11/26.
-//
-
 import SwiftUI
 
 @main
 struct SubwayDesktopApp: App {
+    @StateObject private var manager = SubwayManager.shared
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        // Suppress the startup window
+        Settings {
+            EmptyView()
         }
+        .defaultLaunchBehavior(.suppressed)
+        
+        MenuBarExtra("Subway", systemImage: "tram.fill") {
+            MenuView(subway: manager)
+        }
+        .menuBarExtraStyle(.window)
     }
 }
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+    var desktopWindow: DesktopWindow?
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        desktopWindow = DesktopWindow(manager: SubwayManager.shared)
+        desktopWindow?.orderFront(nil)
+    }
+}
+
