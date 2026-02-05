@@ -20,6 +20,7 @@ class DesktopWindow: NSWindow {
         
         self.isOpaque = false
         self.backgroundColor = .clear
+        self.hasShadow = false
         
         // Place window behind all other windows (Desktop level)
         self.level = NSWindow.Level(Int(CGWindowLevelForKey(.desktopWindow)))

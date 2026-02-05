@@ -7,8 +7,13 @@ struct DesktopContentView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(subway.stationName).font(.system(size: 10, weight: .black))
-                Text("UPDATED: \(subway.lastUpdated)").font(.system(size: 8, weight: .medium))
+                Text(subway.stationName)
+                    .font(.system(size: 10, weight: .black))
+                    .foregroundColor(.white)
+                
+                Text("UPDATED: \(subway.lastUpdated)")
+                    .font(.system(size: 8, weight: .medium))
+                    .foregroundColor(.white)
             }
             .padding([.top, .leading], 10)
 
@@ -39,16 +44,21 @@ struct DirectionSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(.system(size: 8, weight: .black))
+            Text(title)
+                .font(.system(size: 8, weight: .black))
+                .foregroundColor(.white)
+            
             ForEach(trains) { train in
                 HStack(spacing: 8) {
                     ZStack {
                         Circle().fill(train.color).frame(width: 22, height: 22)
                         Text(train.route)
-                            .font(.system(size: 10, weight: .bold))
+                            .font(.system(size: 12, weight: .bold))
                             .foregroundColor(.white)
                     }
-                    Text(train.time).font(.system(size: 16, weight: .semibold)) // Lighter than bold
+                    Text(train.time)
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.white)
                 }
             }
         }
