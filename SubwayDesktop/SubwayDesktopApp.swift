@@ -16,6 +16,11 @@ struct SubwayDesktopApp: App {
             MenuView(subway: manager)
         }
         .menuBarExtraStyle(.window)
+        
+        WindowGroup(id: "howto") {
+            HowToView()
+        }
+        .defaultSize(width: 400, height: 400)
     }
 }
 

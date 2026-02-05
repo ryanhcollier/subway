@@ -10,6 +10,7 @@ struct SubwayArrival: Identifiable {
     let route: String
     let destination: String
     let time: String
+    let sortTime: Int
     let color: Color
 }
 
@@ -105,6 +106,7 @@ class SubwayManager: ObservableObject {
                                         route: route,
                                         destination: direction,
                                         time: mins == 0 ? "ARR" : "\(mins) MIN",
+                                        sortTime: mins,
                                         color: self.colorFor(route: route)
                                     ))
                                 }
@@ -119,11 +121,7 @@ class SubwayManager: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.arrivals = fetched.sorted { 
-                        // sort logic: "ARR" < "X MIN". 
-                        // But string compare works crudely: "ARR" < "1 MIN" (A < 1? No). 
-                        // Let's rely on simple string sort or improve later.
-                        // Actually better to sort by raw minutes if we kept them, but simplified:
-                        $0.time < $1.time 
+                        $0.sortTime < $1.sortTime
                     }
                     self.lastUpdated = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .short)
                 }
@@ -154,9 +152,19 @@ class SubwayManager: ObservableObject {
     private func loadStations() {
         guard let path = Bundle.main.path(forResource: "stations", ofType: "txt") else { return }
         if let content = try? String(contentsOfFile: path) {
-            self.allStations = content.components(separatedBy: .newlines).compactMap { line in
-                let parts = line.components(separatedBy: ",")
-                return parts.count == 2 ? StationReference(id: parts[0], name: parts[1]) : nil
+            let lines = content.components(separatedBy: .newlines)
+            
+            self.allStations = lines.compactMap { line -> StationReference? in
+                if line.isEmpty || line.hasPrefix("ID") { return nil }
+                
+                // Parse "101 - Van Cortlandt Park..."
+                let parts = line.components(separatedBy: " - ")
+                if parts.count >= 2 {
+                    let id = parts[0].trimmingCharacters(in: .whitespaces)
+                    let name = parts[1].trimmingCharacters(in: .whitespaces)
+                    return StationReference(id: id, name: name)
+                }
+                return nil
             }
         }
     }

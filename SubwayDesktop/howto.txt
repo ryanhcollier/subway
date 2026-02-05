@@ -1,0 +1,21 @@
+SUBWAY DESKTOP HELP
+===================
+
+HOW TO SEARCH
+-------------
+1. Click the Subway icon in your menu bar.
+2. Type a station name or ID in the search box.
+   - Example: "14th", "Union", "Canal"
+   - Searching "14th" will find "14 St", "14 St-Union Sq", etc.
+3. Click on the station in the list to update the desktop widget.
+
+HOW TO QUIT
+-----------
+1. Click the Subway icon in your menu bar.
+2. Click the "Quit" button at the bottom of the menu.
+
+ABOUT
+-----
+This app displays the next 2 trains for your selected station, sorted by shortest arrival time.
+The window sits on your desktop background behind all other windows.
+Data provided by: wheresthefuckingtrain.com
